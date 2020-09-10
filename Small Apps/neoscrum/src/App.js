@@ -10,7 +10,12 @@ import About from './pages/about';
 import Contact from './pages/contact';
 import News from './pages/news';
 import Auth from './pages/auth';
-
+const path = {
+  home: '',
+  about: '/about',
+  contact: '/contact',
+  news: '/news'
+};
 
 function App() {
   return (

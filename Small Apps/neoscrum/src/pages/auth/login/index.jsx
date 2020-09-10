@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 export default class Login extends Component {
   constructor(props) {
@@ -14,9 +16,24 @@ export default class Login extends Component {
   }
   submitHandler() {
     console.log('Login Form', this.state);
+    axios.post('https://run.mocky.io/v3/19c3eecf-4cf3-427a-adb7-2dddf862df63',
+      {
+        userEmail: this.state.userEmail,
+        userPassword: this.state.userPassword
+      }
+    ).then((res) => {
+      console.log('inside Login  data', res);
+      if (res.status === 200) {
+        // let history = useHistory();
+        console.log('Inside Success Login', this.props);
+        // history.push('/home');
+        this.props.history.push('/home');
+      }
+    })
   }
 
   render() {
+    console.log(this.props);
     return (
       <>
         <input type="email" name="userEmail" value={this.state.userEmail} onChange={(event) => this.inputHandler(event)} placeholder="Enter Developer Email" />

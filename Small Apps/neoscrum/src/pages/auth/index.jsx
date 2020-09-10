@@ -28,19 +28,26 @@ export default function Auth() {
       <h1>
         Neo Scrum
       </h1>
+      {/* {
+        path:['/home']
+      }
+      [{
+        path:'/',
+        component
+      }] */}
       <Switch>
         <Route path='/register'>
           <Register></Register>
         </Route>
-        <Route path='/login'>
-          <Login></Login>
-        </Route>
+        <Route path='/login' component={Login} />
+        {/* <Login></Login> */}
+        {/* </Route> */}
         <Route path='/forgotPassword'>
           <ForgotPassword></ForgotPassword>
         </Route>
-        <Route path='/'>
-          <Login></Login>
-        </Route>
+        <Route path='/' component={Login} />
+        {/* <Login></Login> */}
+        {/* </Route> */}
       </Switch>
     </Router>
   );

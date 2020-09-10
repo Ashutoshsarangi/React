@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 export default class ForgotPassword extends Component {
   constructor(props) {
@@ -13,6 +14,13 @@ export default class ForgotPassword extends Component {
   }
   submitForm() {
     console.log('Forgot password Form', this.state);
+    axios.post('https://run.mocky.io/v3/19c3eecf-4cf3-427a-adb7-2dddf862df63',
+      {
+        userEmail: this.state.userEmail,
+      }
+    ).then((res) => {
+      console.log('inside Forgot Password  data', res);
+    })
   }
   render() {
     return (
