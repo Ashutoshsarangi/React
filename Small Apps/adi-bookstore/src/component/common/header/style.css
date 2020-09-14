@@ -3,3 +3,7 @@
   cursor: pointer;
   user-select: none;
 }
+
+.handleModalButton{
+  justify-content: space-between !important;
+}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './style.css';
 import Swal from 'sweetalert2';
+import { connect } from 'react-redux';
 
 class Login extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class Login extends Component {
     console.log(this.state);
     if (this.state.userName === 'adi@gmail.com' && this.state.password === "adi") {
       Swal.fire('Welcome TO Book Store');
+      this.props.logIn();
       this.props.history.push('/book');
     } else {
       Swal.fire('You have Entered Wrong Credential');
@@ -48,7 +50,19 @@ class Login extends Component {
       </>
     );
   }
-
 }
 
-export default Login;
+const mapStateToProps = (state) => {
+  return {
+    loggedIn: state.loggedIn
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logIn: () => dispatch({
+      type: 'loggedIn'
+    })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
