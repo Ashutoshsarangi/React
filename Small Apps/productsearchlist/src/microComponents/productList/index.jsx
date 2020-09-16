@@ -15,19 +15,20 @@ export function ProductList(props) {
     }
     return '';
   }
+  const listRender = itemList.map((item) =>
+    <div key={item.id}>
+      <Helper categoryName={item.category} />
+      <span className={item.stocked ? '' : 'outOfStock'}>{item.name}</span>
+      <span>{item.price}</span>
+    </div>
+  )
   return (
     <div>
       <div>
         <span>Name</span>
         <span>Price</span>
       </div>
-      {itemList.map((item) =>
-        <div key={item.id}>
-          <Helper categoryName={item.category} />
-          <span className={item.stocked ? '' : 'outOfStock'}>{item.name}</span>
-          <span>{item.price}</span>
-        </div>
-      )}
+      {listRender}
     </div>
   );
 }
