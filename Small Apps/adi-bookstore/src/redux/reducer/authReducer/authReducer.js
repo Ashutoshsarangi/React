@@ -2,7 +2,7 @@ const initialState = {
   loggedIn: false
 }
 
-export default function Reducer(state = initialState, action) {
+export default function AuthReducer(state = initialState, action) {
   switch (action.type) {
     case 'loggedIn':
       return {

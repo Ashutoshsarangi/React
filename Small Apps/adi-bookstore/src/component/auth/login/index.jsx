@@ -27,6 +27,7 @@ class Login extends Component {
 
   }
   render() {
+    console.log(this.props);
     return (
       <>
         <div className="formContainer">
@@ -54,7 +55,7 @@ class Login extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    loggedIn: state.loggedIn
+    loggedIn: state.authReducer.loggedIn
   }
 }
 const mapDispatchToProps = (dispatch) => {

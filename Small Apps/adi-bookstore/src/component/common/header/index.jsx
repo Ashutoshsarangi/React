@@ -10,7 +10,7 @@ class Header extends Component {
   // const history = useHistory();
   constructor(props) {
     super(props);
-    this.state = { show: false };
+    this.state = { show: false, bookName: '', bookDescription: '', bookPic: null, bookAttachment: null };
   }
   handleClose() {
     this.setState({
@@ -22,14 +22,33 @@ class Header extends Component {
       show: true
     });
   }
+  handleCardFields(event) {
+    const name = event.target.name;
+    this.setState({
+      [name]: event.target.value
+    })
+  }
+  onFileUpload(event, name) {
+    this.setState({
+      [name]: event.target.files[0]
+    })
+  }
 
   submitCardDetail(event) {
     event.preventDefault();
-    Swal.fire(
-      'Success!',
-      'Your book uploaded Successfully.',
-      'success'
-    )
+    // Swal.fire(
+    //   'Success!',
+    //   'Your book uploaded Successfully.',
+    //   'success'
+    // )
+    const formData = new FormData();
+    for (const item in this.state) {
+      if (item !== 'show') {
+        formData.append(item, this.state.item);
+      }
+    }
+    console.log(formData);
+    console.log(this.state);
   }
 
   logOut() {
@@ -72,19 +91,19 @@ class Header extends Component {
             <form>
               <div className="form-group">
                 <label htmlFor="exampleInputEmail1">Card Title</label>
-                <input type="text" name="cardTitle" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Card Title" />
+                <input type="text" name="bookName" className="form-control" value={this.state.bookName} onChange={(event) => this.handleCardFields(event)} id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Card Title" />
               </div>
               <div className="form-group">
                 <label htmlFor="exampleInputPassword1">Card Description</label>
-                <textarea className="form-control" name="cardDescription" placeholder="Enter Card Description"></textarea>
+                <textarea className="form-control" name="bookDescription" value={this.state.bookDescription} onChange={(event) => this.handleCardFields(event)} placeholder="Enter Card Description"></textarea>
               </div>
               <div className="form-group">
                 <label htmlFor="uploadBookImage">Upload Book Image</label>
-                <input type="file" name="bookImageUpload" />
+                <input type="file" name="bookImageUpload" onChange={(event) => this.onFileUpload(event, 'bookPic')} />
               </div>
               <div className="form-group">
                 <label htmlFor="uploadBookImage">Upload The Book You Like</label>
-                <input type="file" name="bookUpload" />
+                <input type="file" name="bookUpload" onChange={(event) => this.onFileUpload(event, 'bookAttachment')} />
               </div>
               <div className="form-group" style={{ textAlign: 'center' }}>
                 <button type="submit" className="btn btn-primary" onClick={(event) => this.submitCardDetail(event)}>Submit</button>
@@ -107,7 +126,7 @@ class Header extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    loggedIn: state.loggedIn
+    loggedIn: state.authReducer.loggedIn
   }
 }
 const mapDispatchToProps = (dispatch) => {
