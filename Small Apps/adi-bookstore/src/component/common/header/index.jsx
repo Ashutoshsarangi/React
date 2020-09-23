@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
+import { BaseUrl } from '../../../config/config';
 
 class Header extends Component {
   // const history = useHistory();
@@ -36,19 +38,25 @@ class Header extends Component {
 
   submitCardDetail(event) {
     event.preventDefault();
-    // Swal.fire(
-    //   'Success!',
-    //   'Your book uploaded Successfully.',
-    //   'success'
-    // )
     const formData = new FormData();
+    console.log(this.state);
     for (const item in this.state) {
       if (item !== 'show') {
-        formData.append(item, this.state.item);
+        formData.append(item, this.state[item]);
       }
     }
     console.log(formData);
-    console.log(this.state);
+    axios.post(BaseUrl + '/users/upload', formData).then((res) => {
+      console.log(res);
+      this.props.addBook(res.data.data);
+      Swal.fire(
+        'Success!',
+        'Your book uploaded Successfully.',
+        'success'
+      )
+      this.handleClose();
+    })
+
   }
 
   logOut() {
@@ -131,7 +139,11 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    logout: () => dispatch({ type: 'loggedOut' })
+    logout: () => dispatch({ type: 'loggedOut' }),
+    addBook: (data) => dispatch({
+      type: 'ADD-BOOK',
+      payload: data
+    })
   }
 }
 

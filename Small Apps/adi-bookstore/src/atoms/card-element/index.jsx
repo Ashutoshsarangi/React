@@ -1,52 +1,64 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import './style.css'
+import './style.css';
+import { BaseUrl } from '../../config/config';
+import axios from 'axios';
+import { connect } from 'react-redux';
 
-export default function CardItem() {
-  const cardItems = [
-    {
-      id: 1,
-      imgSrc: require('../../asset/a.png'),
-      cardTitle: 'Kids Math',
-      cardDescription: `Read The Everything Kids' Math Puzzles Book: Brain Teasers, Games, and Activities for Hours`
-    },
-    {
-      id: 2,
-      imgSrc: require('../../asset/b.png'),
-      cardTitle: 'Kids Math',
-      cardDescription: `Read The Everything Kids' Math Puzzles Book: Brain Teasers, Games, and Activities for Hours`
-    },
-    {
-      id: 3,
-      imgSrc: require('../../asset/c.png'),
-      cardTitle: 'Kids Math',
-      cardDescription: `Read The Everything Kids' Math Puzzles Book: Brain Teasers, Games, and Activities for Hours`
-    },
-    {
-      id: 4,
-      imgSrc: require('../../asset/d.png'),
-      cardTitle: 'Kids Math',
-      cardDescription: `Read The Everything Kids' Math Puzzles Book: Brain Teasers, Games, and Activities for Hours`
-    },
-  ];
-  return (
-    <>
-      <div className="flexContainer">
-        {
-          cardItems.map((card) => {
-            return <Card className="cardStyle" key={card.id}>
-              <Card.Img variant="top" src={card.imgSrc} className="cardImg" />
-              <Card.Body>
-                <Card.Title>{card.cardTitle}</Card.Title>
-                <Card.Text> {card.cardDescription} </Card.Text>
-                <a href="./assets/math_puzzles_book_.pdf" target="_blank" download="" className="btn btn-primary">Download</a>
-              </Card.Body>
-            </Card>
+class CardItem extends Component {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    axios.get(BaseUrl + '/users').then((res) => {
+      // this.setState({
+      //   cardItems: res.data
+      // })
+      this.props.newData(res.data);
+      console.log(res.data);
+    });
+    console.log('State OBJ', this.state);
+  }
 
-          })
-        }
-      </div>
-    </>
-  );
+  render() {
+    console.log(this.props);
+    return (
+      <>
+        <div className="flexContainer">
+          {
+            this.props.cardItems &&
+            this.props.cardItems.map((card) => {
+              return <Card className="cardStyle" key={card._id}>
+                <Card.Img variant="top" src={BaseUrl + '/' + card.bookPic} className="cardImg" />
+                <Card.Body>
+                  <Card.Title>{card.bookName}</Card.Title>
+                  <Card.Text> {card.bookDescription} </Card.Text>
+                  <a href={BaseUrl + '/' + card.bookAttachment} target="_blank" download="" className="btn btn-primary">Download</a>
+                </Card.Body>
+              </Card>
+
+            })
+          }
+        </div>
+      </>
+    );
+  }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    cardItems: state.bookReducer.bookList
+  };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    newData: (data) => dispatch({
+      type: 'SaveAll',
+      payload: data
+    })
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CardItem);
