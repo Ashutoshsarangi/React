@@ -1,15 +1,35 @@
-import React, { useState } from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Button from '@material-ui/core/Button';
+import db from './config/firebase';
+import firebase from 'firebase';
+
 
 function App() {
   const [todo, setTodo] = useState(['']);
   const [input, setInput] = useState(['']);
+
+  /**
+   * @description When it loads It Should get the Data From FireStore
+   */
+  useEffect(() => {
+    db.collection('todos').orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
+
+      console.log(snapshot.docs.map((doc) => doc.data()));
+      setTodo(snapshot.docs.map((doc) => doc.data().todoName));
+    })
+  }, []);// It loads When App Loads.
+
+
+
+
   function addTodo(event) {
     event.preventDefault();
     if (input.trim()) {
-      setTodo([...todo, input]);
+      db.collection('todos').add({
+        todoName: input,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      })
     }
     setInput('');
   }
