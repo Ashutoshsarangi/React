@@ -6,7 +6,7 @@ import firebase from 'firebase';
 
 
 function App() {
-  const [todo, setTodo] = useState(['']);
+  const [todo, setTodo] = useState([{}]);
   const [input, setInput] = useState(['']);
 
   /**
@@ -15,14 +15,17 @@ function App() {
   useEffect(() => {
     db.collection('todos').orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
 
-      console.log(snapshot.docs.map((doc) => doc.data()));
-      setTodo(snapshot.docs.map((doc) => doc.data().todoName));
+      // console.log(snapshot.docs.map((doc) => doc.data()));
+      setTodo(snapshot.docs.map((doc) => ({ id: doc.id, todoName: doc.data().todoName })));
     })
   }, []);// It loads When App Loads.
 
+  // Remove Operation form Firebase
+  function removeTodo(id) {
+    db.collection('todos').doc(id).delete();
+  }
 
-
-
+  // Add Operation in Firebase
   function addTodo(event) {
     event.preventDefault();
     if (input.trim()) {
@@ -45,7 +48,10 @@ function App() {
       <ul>
         {
           todo.map((item) => (
-            <li>{item}</li>
+            <li key={item.id}>
+              {item.todoName} --> {item.id}
+              <button onClick={() => { removeTodo(item.id) }}>Delete Me</button>
+            </li>
           ))
         }
       </ul>
