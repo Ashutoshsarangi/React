@@ -1,6 +1,7 @@
 import './App.css';
 
 import React, {useState, Suspense, useEffect} from 'react';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 const Header = React.lazy(()=> import('./Header'));
@@ -16,6 +17,13 @@ function App() {
     // console.log(contact);
     setContactList([...contactList, {id: uuidv4(), ...contact}]);
   }
+
+  const removeContactHandler = (id)=>{
+    const newContact = contactList.filter((contact)=>{
+      return contact.id !== id;
+    });
+    setContactList(newContact);
+  }
   useEffect(()=>{
     const val = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
     if(val){
@@ -30,9 +38,19 @@ function App() {
   return (
     <div className="ui container">
       <Suspense fallback={<div>Loading .... </div>}>
-        <Header/>
-        <AddContact addContactHandler={addContactHandler}/>
-        <ContactList contactList= {contactList}/>
+        <Router>
+          <Header/>
+          <Switch>
+            <Route path='/' exact render={(props)=>(
+              <ContactList {...props} contactList= {contactList} removeContactHandler={removeContactHandler}/>
+            )}/>
+            <Route path='/add' render={(props)=>(
+              <AddContact {...props} addContactHandler={addContactHandler}/>
+            )}/>
+          </Switch>
+          {/* <AddContact addContactHandler={addContactHandler}/> */}
+          {/* <ContactList contactList= {contactList} removeContactHandler={removeContactHandler}/> */}
+        </Router>
       </Suspense>
     </div>
   );
