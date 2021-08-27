@@ -11,7 +11,7 @@ const ContactCard = (props)=>{
         <div className="item">
             <img className="ui avatar image" src={user}/>
             <div className="content">
-                <Link to={`/contact/${contact.id}`}>    
+                <Link to={{pathname:`/contact/${contact.id}`, state:{specificContact: props.contact}}}>    
                     <div className="header">
                         {contact.name}
                     </div>

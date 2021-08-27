@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 const Header = React.lazy(()=> import('./Header'));
 const AddContact = React.lazy(()=>import('./AddContact'));
 const ContactList = React.lazy(()=> import('./ContactList'));
+const ContactDetail = React.lazy(()=> import('./ContactDetail'));
 
 
 function App() {
@@ -46,6 +47,9 @@ function App() {
             )}/>
             <Route path='/add' render={(props)=>(
               <AddContact {...props} addContactHandler={addContactHandler}/>
+            )}/>
+            <Route path='/contact/:id' render={(props)=>(
+              <ContactDetail {...props} />
             )}/>
           </Switch>
           {/* <AddContact addContactHandler={addContactHandler}/> */}
