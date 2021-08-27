@@ -9,6 +9,7 @@ function ContactList(props){
     }
 
     const RenderContactList = props.contactList.map((contact)=>{
+        console.log('This called 1st');
         return(
             <Suspense fallback={<div>Loading ...</div>}  key={contact.id}>
                 <ContactCard contact={contact} removeContactHandler={deleteHandler}/>

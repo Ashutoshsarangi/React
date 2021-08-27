@@ -3,6 +3,7 @@ import './App.css';
 import React, {useState, Suspense, useEffect} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import api from '../Api/Contact';
 
 const Header = React.lazy(()=> import('./Header'));
 const AddContact = React.lazy(()=>import('./AddContact'));
@@ -19,21 +20,34 @@ function App() {
     setContactList([...contactList, {id: uuidv4(), ...contact}]);
   }
 
+  // Retrieve Contact Information from API (JSON - Server)
+
+  const retrieveContact = async ()=>{
+    const res = await api.get('/contacts');
+    console.log(res.data);
+    return res.data;
+  }
+
   const removeContactHandler = (id)=>{
     const newContact = contactList.filter((contact)=>{
       return contact.id !== id;
     });
     setContactList(newContact);
   }
-  useEffect(()=>{
-    const val = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+  useEffect(async ()=>{
+    // const val = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    // if(val){
+    //   setContactList(val);
+    // }
+    const val = await retrieveContact();
     if(val){
+      console.log(val);
       setContactList(val);
     }
   },[]);
 
   useEffect(()=>{
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contactList));
+    // localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contactList));
   },[contactList]);
 
   return (
