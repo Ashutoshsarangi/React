@@ -7,18 +7,27 @@ import api from '../Api/Contact';
 
 const Header = React.lazy(()=> import('./Header'));
 const AddContact = React.lazy(()=>import('./AddContact'));
+const EditContact = React.lazy(()=> import('./EditContact'));
 const ContactList = React.lazy(()=> import('./ContactList'));
 const ContactDetail = React.lazy(()=> import('./ContactDetail'));
 
 
 function App() {
-  const LOCAL_STORAGE_KEY = 'contact_list'
+  // const LOCAL_STORAGE_KEY = 'contact_list'
   const [contactList, setContactList] = useState([]);
 
-  const addContactHandler = (contact) =>{
+  const addContactHandler = async(contact) =>{
     // console.log(contact);
-    setContactList([...contactList, {id: uuidv4(), ...contact}]);
+    const request = {
+      id: uuidv4(), 
+      ...contact
+    }
+    const res = await api.post('/contacts', request);
+    console.log('res---> ', res.data);
+    setContactList([...contactList, res.data]);
   }
+
+  const updateContactHandler = async(contact) =>{}
 
   // Retrieve Contact Information from API (JSON - Server)
 
@@ -28,7 +37,8 @@ function App() {
     return res.data;
   }
 
-  const removeContactHandler = (id)=>{
+  const removeContactHandler = async (id)=>{
+    await api.delete(`/contacts/${id}`);
     const newContact = contactList.filter((contact)=>{
       return contact.id !== id;
     });
@@ -61,6 +71,9 @@ function App() {
             )}/>
             <Route path='/add' render={(props)=>(
               <AddContact {...props} addContactHandler={addContactHandler}/>
+            )}/>
+             <Route path='/edit' render={(props)=>(
+              <EditContact {...props} updateContactHandler={updateContactHandler}/>
             )}/>
             <Route path='/contact/:id' render={(props)=>(
               <ContactDetail {...props} />

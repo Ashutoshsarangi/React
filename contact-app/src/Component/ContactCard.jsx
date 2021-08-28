@@ -21,6 +21,11 @@ const ContactCard = (props)=>{
                 </Link>
             </div>
             <i className="trash alternate outline icon" onClick={()=> deleteHandler(contact.id)}></i>
+            <Link to={{pathname:'/edit', state:{specificContact: props.contact}}}>
+                <div>
+                    <i className="edit alternate outline icon"  ></i>
+                </div>
+            </Link>
         </div>
     );
 }
