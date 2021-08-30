@@ -15,6 +15,24 @@ const ContactDetail = React.lazy(()=> import('./ContactDetail'));
 function App() {
   // const LOCAL_STORAGE_KEY = 'contact_list'
   const [contactList, setContactList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+
+
+  const searchKeyword = (val)=>{
+    setSearchTerm(val);
+    if(searchTerm !== ''){
+      const result = contactList.filter((contact)=>{
+        return Object.values(contact)
+          .join(' ')
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      });
+      setSearchResult(result);
+    } else{
+      setSearchResult(contactList);
+    }
+  }
 
   const addContactHandler = async(contact) =>{
     // console.log(contact);
@@ -27,7 +45,18 @@ function App() {
     setContactList([...contactList, res.data]);
   }
 
-  const updateContactHandler = async(contact) =>{}
+  const updateContactHandler = async(contact) =>{
+    const res = await api.put(`/contacts/${contact.id}`, contact);
+    console.log(res.data);
+    const {id, name, email} = res.data
+    setContactList(contactList.map((contact)=>{
+      if(contact.id === id){
+        return res.data
+      }else{
+        return contact;
+      }
+    }))
+  }
 
   // Retrieve Contact Information from API (JSON - Server)
 
@@ -67,7 +96,13 @@ function App() {
           <Header/>
           <Switch>
             <Route path='/' exact render={(props)=>(
-              <ContactList {...props} contactList= {contactList} removeContactHandler={removeContactHandler}/>
+              <ContactList 
+              {...props} 
+              contactList= {searchTerm.length < 1 ? contactList : searchResult} 
+              removeContactHandler={removeContactHandler}
+              term={searchTerm}
+              searchKeyword={searchKeyword}
+              />
             )}/>
             <Route path='/add' render={(props)=>(
               <AddContact {...props} addContactHandler={addContactHandler}/>

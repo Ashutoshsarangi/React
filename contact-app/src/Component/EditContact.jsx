@@ -15,7 +15,7 @@ class EditContact extends React.Component{
         if(this.state.name === '' && this.state.email === ''){
             alert('The Fields are Needed !');
         }
-        this.props.addContactHandler(this.state);
+        this.props.updateContactHandler(this.state);
         this.setState({name:'', email:''});
         this.props.history.push('/');
     }
