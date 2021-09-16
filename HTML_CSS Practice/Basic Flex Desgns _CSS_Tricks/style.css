@@ -1,0 +1,14 @@
+.container{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 200px;
+    row-gap: 10px;
+}
+.item{
+    border: 1px solid black;
+    width: 30%;
+    height: 60%;
+    flex-grow: 1;
+    
+}
