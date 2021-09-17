@@ -15,6 +15,10 @@
     background-color: darkblue;
     order: 1;
     flex: 1;
+    flex-basis:100%; 
+    /* The Flex-basis will take 100% of the width and it will move to next row
+        but we need to take flex-wrap as wrap so that it will move to next row.
+    */
 }
 .aside2{
     background-color: darkorchid;
@@ -25,4 +29,5 @@
     display: flex;
     column-gap: 10px;
     flex-wrap: wrap;
+    row-gap: 10px;
 }

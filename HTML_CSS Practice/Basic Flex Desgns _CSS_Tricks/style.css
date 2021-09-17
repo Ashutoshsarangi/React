@@ -10,5 +10,22 @@
     width: 30%;
     height: 60%;
     flex-grow: 1;
-    
+
+}
+.HeaderOptions{
+    list-style:none
+}
+.headerList{
+    display: flex;
+    column-gap: 10px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid;
+    background: blanchedalmond;
+    padding: 5px;
 }
