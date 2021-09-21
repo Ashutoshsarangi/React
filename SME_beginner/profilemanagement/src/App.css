@@ -1,0 +1,24 @@
+.container{
+  display: flex;
+  height: 500px;
+  padding: 10px;
+  margin: 10px;
+  column-gap: 10px;
+}
+
+.article1{
+    flex-basis: 25%;
+    padding: 10px;
+}
+.article2{
+  border: 2px solid green;
+}
+.article3{
+  flex-basis: 75%;
+  padding: 10px;
+}
+.filter{
+  position: absolute;
+    right: 0;
+    top: 4px;
+}
