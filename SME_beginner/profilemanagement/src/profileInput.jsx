@@ -1,24 +1,33 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 function ProfileInput(props){
-    const initialState = {
+    const temp ={
+        id: '',
         name:'',
         email:'',
         gender:'',
         about:''
-      }
-    const [userInput, setUserInput] = useState(initialState);
+      };
+    const [userInput, setUserInput] = useState(temp);
+
+    useEffect(()=>{
+        if(props.isUpdate){
+            setUserInput({...props.updateState});
+        }
+    }, [props.isUpdate]);
+    // useEffect(()=>{
+    //     setUserInput({...props.initialState});
+    // }, [props.initialState]);
     
     const inputHandler = (e)=>{
-        let val = e.target.value;
-        let na = e.target.name;
         userInput[`${e.target.name}`]= e.target.value;
         setUserInput({...userInput});
     }
     const onsubmit=(e)=>{
         e.preventDefault();
-        props.saveUserInfo(userInput);
-        setUserInput({...initialState});
+        setUserInput({...temp});
+        props.saveUserInfo({...userInput});
+        console.log('temp', temp);
 
     }
     return(
@@ -34,7 +43,7 @@ function ProfileInput(props){
         onChange={(e)=> inputHandler(e)}/>Female
         About:-
         <textarea placeholder="About" name="about" value={userInput.about} onChange={(e)=> inputHandler(e)}></textarea>
-        <input type="button" value="Add" onClick={(e)=> onsubmit(e)}/>
+        <button type="button" onClick={(e)=> onsubmit(e)}>{props.isUpdate ? 'Update' : 'Add'}</button>
         </form>
     );
 }

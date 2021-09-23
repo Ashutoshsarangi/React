@@ -1,6 +1,5 @@
 
 function DisplayProfile(props){
-  console.log('Inside Display Component', props.userList);
     return(
         <table>
           <thead>
@@ -21,7 +20,9 @@ function DisplayProfile(props){
                     <td>{user.email}</td>
                     <td>{user.gender}</td>
                     <td>{user.about}</td>
-                    <td>Edit / Delete</td>
+                    <td>
+                      <span onClick={()=>props.updateUser(user)}>Edit</span> / <span>Delete</span>
+                    </td>
                   </tr>
                 );
               })
