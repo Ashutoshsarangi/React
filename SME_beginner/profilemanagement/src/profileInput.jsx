@@ -27,7 +27,6 @@ function ProfileInput(props){
         e.preventDefault();
         setUserInput({...temp});
         props.saveUserInfo({...userInput});
-        console.log('temp', temp);
 
     }
     return(

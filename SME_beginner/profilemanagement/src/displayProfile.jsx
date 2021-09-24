@@ -21,7 +21,7 @@ function DisplayProfile(props){
                     <td>{user.gender}</td>
                     <td>{user.about}</td>
                     <td>
-                      <span onClick={()=>props.updateUser(user)}>Edit</span> / <span>Delete</span>
+                      <span onClick={()=>props.updateUser(user)}>Edit</span> / <span onClick={()=> props.deleteUser(user)}>Delete</span>
                     </td>
                   </tr>
                 );
