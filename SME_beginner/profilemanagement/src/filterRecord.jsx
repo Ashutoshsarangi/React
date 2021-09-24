@@ -1,18 +1,18 @@
-import {useRef} from 'react';
+import {useRef, useState} from 'react';
 
 function FilterRecord(props){
 
     const mySearchRef= useRef();
+    const [searchTerm, setSearchTerm]= useState('');
 
-    const handleInput = (e)=>{
-        console.log(e)
-        props.handleSearchFilter(e.target.value)
+    const handleInput = (val)=>{
+        setSearchTerm(val)
+        props.handleSearchFilter(val)
     }
 
     return(
-        <input type="text" value={props.userSearch} 
-        ref={mySearchRef}
-        onChange={(e)=> handleInput(e)}
+        <input type="text" value={searchTerm} 
+        onChange={(e)=> handleInput(e.target.value)}
         placeholder="search" 
         className="filter"/>
     );

@@ -11,8 +11,8 @@ function App() {
   const [updateState, setUpdateState] = useState({});
   const [isUpdate, setIsUpdate] = useState(false);
   const [userList, setUserList] = useState([]);
-  const [userSearch, setUserSearch] = useState("");
   const [filterData, setFilterData] = useState(userList);
+  const [useSearchData, setSearchData] = useState(false);
 
   const saveUserInfo = (userInfo)=>{
     if(isUpdate){
@@ -41,16 +41,18 @@ function App() {
     }))
   }
   const handleSearchFilter = (temp)=>{
-    console.log('val',temp);
-    setUserSearch(temp);
-    console.log(userSearch);
-    // setFilterData(filterData.filter((data)=>{
-    //   console.log(Object.values(data).join('') + '  ----- >' + val);
-    //   if(Object.values(data).join('').includes(val)){
-    //     return data;
-    //   }
-    // }));
-    console.log('end', userSearch);
+    if(temp !== ''){
+      setSearchData(true);
+      setFilterData(filterData.filter((data)=>{
+        console.log(Object.values(data).join('') + '  ----- >' + temp);
+        if(Object.values(data).join('').includes(temp)){
+          return data;
+        }
+      }));
+    }else{
+      setSearchData(false);
+      setFilterData(userList);
+    }
 
   }
   
@@ -62,10 +64,10 @@ function App() {
       <article className="article2">
       </article>
       <article className="article3">
-        <FilterRecord userSearch={userSearch} handleSearchFilter={handleSearchFilter}/>
+        <FilterRecord handleSearchFilter={handleSearchFilter}/>
         {
           userList.length === 0 ? 'No Data Available' :
-        <DisplayProfile userList={userSearch.length >1 ? filterData : userList} updateUser={updateUser} deleteUser={deleteUser}/>
+        <DisplayProfile userList={useSearchData ? filterData:userList} updateUser={updateUser} deleteUser={deleteUser}/>
         }
       </article>
     </section>
