@@ -15,12 +15,11 @@ function ProfileInput(props){
             setUserInput({...props.updateState});
         }
     }, [props.isUpdate]);
-    // useEffect(()=>{
-    //     setUserInput({...props.initialState});
-    // }, [props.initialState]);
+    useEffect(()=>{
+        throw new Error('Check ,..');
+    }, []);
     
     const inputHandler = (e)=>{
-        // throw new Error('Test Error');
         userInput[`${e.target.name}`]= e.target.value;
         setUserInput({...userInput});
     }

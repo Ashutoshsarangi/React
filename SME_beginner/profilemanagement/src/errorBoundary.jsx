@@ -2,7 +2,7 @@ import React from 'react';
 class ErrorBoundary extends React.Component {
     constructor(props) {
       super(props);
-      this.state = { error: null, errorInfo: null };
+      this.state = { hasError: false };
     }
   
     static getDerivedStateFromError(error) {
@@ -12,15 +12,15 @@ class ErrorBoundary extends React.Component {
   
     componentDidCatch(error, errorInfo) {
       // You can also log the error to an error reporting service
-      this.setState({
-        error,
-        errorInfo: errorInfo
-      })
       console.log(error, errorInfo);
+
+      // this.setState({
+      //   hasError: true
+      // })
     }
   
     render() {
-      if (this.state.errorInfo) {
+      if (this.state.hasError) {
         // You can render any custom fallback UI
         return <h1>Something went wrong.</h1>;
       }
