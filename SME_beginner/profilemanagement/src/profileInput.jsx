@@ -20,6 +20,7 @@ function ProfileInput(props){
     // }, [props.initialState]);
     
     const inputHandler = (e)=>{
+        // throw new Error('Test Error');
         userInput[`${e.target.name}`]= e.target.value;
         setUserInput({...userInput});
     }

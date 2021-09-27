@@ -1,9 +1,13 @@
-import React, {useState} from 'react';
+import React, {Suspense, useState} from 'react';
 import './App.css';
-import ProfileInput from './profileInput';
-import DisplayProfile from './displayProfile';
-import FilterRecord from './filterRecord';
+import Fallback from './fallBack';
 import { v4 as uuidv4 } from 'uuid';
+import ErrorBoundary from './errorBoundary';
+
+const ProfileInput = React.lazy(()=> import('./profileInput'));
+const DisplayProfile = React.lazy(()=> import ('./displayProfile'));
+const FilterRecord = React.lazy(()=>import('./filterRecord'));
+
 
 
 function App() {
@@ -59,15 +63,23 @@ function App() {
   return (  
     <section className="container">
       <article className="article1 addProfile">
-        <ProfileInput saveUserInfo= {saveUserInfo} isUpdate={isUpdate} updateState={updateState}/>
+        <Suspense fallback={<Fallback/>}>
+          <ErrorBoundary>
+            <ProfileInput saveUserInfo= {saveUserInfo} isUpdate={isUpdate} updateState={updateState}/>
+          </ErrorBoundary>
+        </Suspense>
       </article>
       <article className="article2">
       </article>
       <article className="article3">
+        <Suspense fallback={<Fallback/>}>
         <FilterRecord handleSearchFilter={handleSearchFilter}/>
+        </Suspense>
         {
           userList.length === 0 ? 'No Data Available' :
-        <DisplayProfile userList={useSearchData ? filterData:userList} updateUser={updateUser} deleteUser={deleteUser}/>
+          <Suspense fallback={<Fallback/>}>
+            <DisplayProfile userList={useSearchData ? filterData:userList} updateUser={updateUser} deleteUser={deleteUser}/>
+          </Suspense>
         }
       </article>
     </section>
