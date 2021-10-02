@@ -9,26 +9,26 @@ function Comp2(){
     return (
         <div>
             <h1>Comp2</h1>
-            <Link to={{pathname:"/compa", state:{name:'Ashu'}}}>
+            <Link to={{pathname:"/comp2/compa", state:{name:'Ashu'}}}>
                 <h3>Comp A</h3>
             </Link>
-            <Link to={{pathname:"/compb", state:{name: 'Bashu'}}}>
+            <Link to={{pathname:"/comp2/compb", state:{name: 'Bashu'}}}>
                 <h3> Comp B</h3>
             </Link>
-            <Link to={{pathname:"/compc", state:{name: 'ggggg'}}}>
+            <Link to={{pathname:"/comp2/compc", state:{name: 'ggggg'}}}>
                 <h3> Comp C</h3>
             </Link>
             <Router>
                 <Switch>
-                    <Route path="/compa" render={(props)=>(
+                    <Route path="/comp2/compa" render={(props)=>(
                       <CompA {...props}/>
                     )}
                     />
-                    <Route path="/compb" render={(props)=>{
+                    <Route path="/comp2/compb" render={(props)=>{
                         return <CompB {...props}/>
                     }}
                     />
-                    <Route path="/compc" render={(props)=>{
+                    <Route path="/comp2/compc" render={(props)=>{
                         return <CompC {...props}/>
                     }}
                     />
