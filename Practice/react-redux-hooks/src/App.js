@@ -1,23 +1,21 @@
-import logo from './logo.svg';
 import './App.css';
 
+import {useDispatch, useSelector} from 'react-redux';
+import { ageDownAction, ageUpAction} from './Store/action';
+
 function App() {
+
+  const age = useSelector( (state) =>{
+    return state.age;
+  });
+
+  const dispatch = useDispatch();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Age: <span>{age}</span></h1>
+      <button onClick={()=> dispatch(ageUpAction())}>Age Up</button>
+      <button onClick={()=> dispatch(ageDownAction())}>Age Down</button>
     </div>
   );
 }
